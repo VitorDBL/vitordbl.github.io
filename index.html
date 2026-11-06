@@ -1,1278 +1,415 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vitor Del Bosque Lima | Dados, Python, SQL e AWS</title>
-  <meta name="description" content="Portfólio de Vitor Del Bosque Lima, Estagiário de Dados na Rede (Itaú Unibanco) e estudante de Ciência da Computação na UFABC. Pipelines em AWS, análises e projetos com impacto mensurável." />
-  <meta property="og:title" content="Vitor Del Bosque Lima | Dados, Python, SQL e AWS" />
-  <meta property="og:description" content="Estagiário de Dados na Rede (Itaú Unibanco). Reprojetou uma base de dados com 70% de redução de custo, mais de US$ 90 mil por ano." />
-  <meta property="og:url" content="https://vitordbl.github.io/" />
-  <meta property="og:type" content="profile" />
-  <meta name="theme-color" content="#060a0f" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --bg: #060a0f;
-      --bg2: #0b1118;
-      --bg3: #0f1820;
-      --green: #00ff88;
-      --green2: #00cc6a;
-      --green3: #00ff8822;
-      --green4: #00ff8811;
-      --text: #e0ffe8;
-      --muted: #6b8f78;
-      --border: #1a3328;
-      --card: #0c1a14;
-      --mono: 'Share Tech Mono', monospace;
-      --sans: 'Outfit', sans-serif;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vitor Del Bosque Lima | Dados, Python, SQL e AWS</title>
+<meta name="description" content="Vitor Del Bosque Lima, Estagiário de Dados na Rede (Itaú Unibanco) e estudante de Ciência da Computação na UFABC. Reprojetou uma base de dados com 70% de redução de custo, mais de US$ 90 mil por ano." />
+<meta property="og:title" content="Vitor Del Bosque Lima | Dados, Python, SQL e AWS" />
+<meta property="og:description" content="Estagiário de Dados na Rede (Itaú Unibanco). Reprojetou uma base de dados com 70% de redução de custo, mais de US$ 90 mil por ano." />
+<meta property="og:url" content="https://vitordbl.github.io/" />
+<meta property="og:type" content="profile" />
+<meta name="theme-color" content="#F3F5F8" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A2230'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='700' font-size='28' fill='%23EB6A12' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #F3F5F8;
+    --surface: #FFFFFF;
+    --ink: #1A2230;
+    --muted: #5B6576;
+    --line: #DCE1E8;
+    --accent: #EB6A12;
+    --accent-ink: #B34A00;
+    --accent-soft: #FFF1E6;
+    --display: 'Bricolage Grotesque', sans-serif;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 20; background: rgba(243,245,248,0.88); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+  nav.scrolled { border-bottom-color: var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .brand { font-family: var(--display); font-weight: 800; font-size: 1.15rem; text-decoration: none; letter-spacing: -0.01em; }
+  .brand i { font-style: normal; color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+  .nav-links a { text-decoration: none; font-size: 0.95rem; color: var(--muted); font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cv { background: var(--ink); color: #fff !important; padding: 8px 16px; border-radius: 999px; }
+  .nav-cv:hover { background: var(--accent-ink); }
 
-    html { scroll-behavior: smooth; }
+  /* HERO */
+  .hero { padding: 72px 0 96px; }
+  .hero .wrap { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 64px; align-items: center; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--muted); margin-bottom: 22px; }
+  .status::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #1FA463; box-shadow: 0 0 0 4px rgba(31,164,99,0.15); }
+  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: 0.98; letter-spacing: -0.035em; }
+  .lede { font-size: 1.2rem; color: var(--muted); max-width: 34ch; margin: 22px 0 32px; line-height: 1.5; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 999px; font-weight: 600; font-size: 0.98rem; text-decoration: none; transition: transform .15s, background .15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-ink); }
+  .btn-ghost { border: 1.5px solid var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: #fff; }
+  .btn svg { width: 18px; height: 18px; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      overflow-x: hidden;
-    }
+  /* RECEIPT */
+  .terminal { position: relative; padding-top: 18px; }
+  .slot { height: 14px; background: var(--ink); border-radius: 8px; margin: 0 18px; position: relative; z-index: 2; }
+  .receipt { position: relative; margin: -7px 34px 0; background: var(--surface); font-family: var(--mono); font-size: 0.86rem; color: #2A3240; padding: 28px 24px 34px; box-shadow: 0 18px 40px rgba(26,34,48,0.10);
+    --tooth: 10px;
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(var(--tooth) * 2) var(--tooth) repeat-x, linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth) + 1px) no-repeat;
+            mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / calc(var(--tooth) * 2) var(--tooth) repeat-x, linear-gradient(#000 0 0) top / 100% calc(100% - var(--tooth) + 1px) no-repeat;
+    transform-origin: top; animation: print 1.6s cubic-bezier(.3,.7,.2,1) .3s both; }
+  @keyframes print { from { clip-path: inset(0 0 100% 0); transform: translateY(-24px); } to { clip-path: inset(0 0 0 0); transform: translateY(0); } }
+  .r-head { text-align: center; border-bottom: 1px dashed #B9C0CB; padding-bottom: 14px; margin-bottom: 14px; }
+  .r-head b { display: block; font-size: 0.95rem; letter-spacing: 0.04em; }
+  .r-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+  .r-row span:last-child { text-align: right; }
+  .r-sep { border-top: 1px dashed #B9C0CB; margin: 12px 0; }
+  .r-total { display: flex; justify-content: space-between; align-items: baseline; font-weight: 500; }
+  .r-total b { white-space: nowrap; font-family: var(--display); font-size: 2rem; color: var(--accent-ink); letter-spacing: -0.02em; }
+  .r-ok { margin-top: 14px; text-align: center; color: #1B7F4C; font-weight: 500; }
+  .r-foot { text-align: center; color: var(--muted); font-size: 0.78rem; margin-top: 10px; }
 
-    /* SCANLINE OVERLAY */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.015) 2px, rgba(0,255,136,0.015) 4px);
-      pointer-events: none;
-      z-index: 1000;
-    }
+  /* SECTIONS */
+  section { padding: 88px 0; }
+  section.alt { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.9rem, 3.6vw, 2.7rem); letter-spacing: -0.025em; line-height: 1.05; margin-bottom: 14px; }
+  .sub { color: var(--muted); max-width: 60ch; margin-bottom: 44px; }
 
-    /* NOISE TEXTURE */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 999;
-      opacity: 0.4;
-    }
+  /* SOBRE */
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .about p { margin-bottom: 16px; max-width: 62ch; }
+  .facts { list-style: none; border-top: 1px solid var(--line); }
+  .facts li { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .facts span { color: var(--muted); font-size: 0.92rem; }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 500;
-      padding: 1.2rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: rgba(6,10,15,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      color: var(--green);
-      font-size: 1.1rem;
-      letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--muted); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px; left: 0;
-      width: 0; height: 1px;
-      background: var(--green);
-      transition: width 0.2s;
-    }
-    .nav-links a:hover { color: var(--green); }
-    .nav-links a:hover::after { width: 100%; }
+  /* EXPERIÊNCIA */
+  .jobs { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .job { display: grid; grid-template-columns: 220px 1fr; gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--line); }
+  .job .when { color: var(--muted); font-size: 0.95rem; }
+  .job .when b { display: block; color: var(--ink); font-weight: 600; }
+  .job h3 { font-family: var(--display); font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .job .org { color: var(--accent-ink); font-weight: 600; margin-bottom: 12px; }
+  .job ul { padding-left: 20px; }
+  .job li { margin-bottom: 6px; }
+  .job li::marker { color: var(--accent); }
+  .hl { background: linear-gradient(transparent 58%, var(--accent-soft) 58%); font-weight: 600; }
 
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--green); transition: all 0.3s; }
+  /* PROJETOS */
+  .projects { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+  .proj { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; grid-column: span 2; }
+  .proj.wide { grid-column: span 4; }
+  .proj.feature { grid-column: span 6; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; background: var(--ink); color: #E8ECF2; border: none; }
+  .proj .kind { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; }
+  .proj.feature .kind { color: #AEB7C6; }
+  .proj h3 { font-family: var(--display); font-size: 1.45rem; font-weight: 700; letter-spacing: -0.015em; line-height: 1.15; margin-bottom: 10px; }
+  .proj.feature h3 { font-size: 2rem; color: #fff; }
+  .proj p { color: var(--muted); margin-bottom: 18px; font-size: 0.98rem; }
+  .proj.feature p { color: #C5CDD9; }
+  .stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+  .stack span { font-size: 0.8rem; padding: 4px 10px; border-radius: 999px; background: var(--bg); color: #3A4456; border: 1px solid var(--line); }
+  .proj.feature .stack span { background: rgba(255,255,255,0.06); color: #D7DDE6; border-color: rgba(255,255,255,0.12); }
+  .links { display: flex; gap: 18px; margin-top: 18px; font-weight: 600; font-size: 0.95rem; }
+  .links a { color: var(--accent-ink); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+  .big-nums { display: grid; gap: 22px; align-content: center; }
+  .big-nums div { border-left: 3px solid var(--accent); padding-left: 18px; }
+  .big-nums b { display: block; font-family: var(--display); font-size: 3rem; line-height: 1; color: #fff; letter-spacing: -0.03em; }
+  .big-nums span { color: #AEB7C6; font-size: 0.95rem; }
+  .wip { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--accent-ink); background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; align-self: flex-start; }
 
-    /* MOBILE MENU */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 60px; left: 0; right: 0;
-      background: rgba(6,10,15,0.98);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 2rem;
-      z-index: 499;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--mono);
-      font-size: 0.9rem;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--green); }
+  /* COMPETÊNCIAS */
+  .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 48px; }
+  .skills h3 { font-family: var(--display); font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 2px solid var(--ink); }
+  .skills ul { list-style: none; }
+  .skills li { padding: 5px 0; color: #374152; }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 3rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
+  /* FORMAÇÃO */
+  .edu { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .edu-list { list-style: none; border-top: 1px solid var(--line); }
+  .edu-list li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .edu-list b { display: block; font-weight: 600; }
+  .edu-list span { color: var(--muted); font-size: 0.93rem; }
+  h3.col { font-family: var(--display); font-size: 1.3rem; font-weight: 700; margin-bottom: 14px; }
 
-    /* Grid background */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.4;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
-    }
+  /* CONTATO */
+  .contact { background: var(--ink); color: #fff; padding: 96px 0 40px; }
+  .contact h2 { font-size: clamp(2.2rem, 5vw, 3.8rem); max-width: 16ch; }
+  .contact .sub { color: #AEB7C6; }
+  .mail { display: inline-block; font-family: var(--display); font-size: clamp(1.4rem, 3.4vw, 2.4rem); font-weight: 700; color: #fff; text-decoration: none; border-bottom: 3px solid var(--accent); padding-bottom: 4px; margin-bottom: 40px; word-break: break-all; }
+  .mail:hover { color: #FFC59B; }
+  .channels { display: flex; flex-wrap: wrap; gap: 12px; }
+  .channels a { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border: 1px solid rgba(255,255,255,0.22); border-radius: 999px; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+  .channels a:hover { background: rgba(255,255,255,0.08); }
+  .channels svg { width: 17px; height: 17px; }
+  footer { margin-top: 72px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.12); color: #8C96A7; font-size: 0.88rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
-    /* Glow orb */
-    .hero-orb {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,136,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .hero-content { position: relative; z-index: 2; max-width: 900px; }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--green);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.2s forwards;
-    }
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .hero h1 {
-      font-family: var(--sans);
-      font-size: clamp(2rem, 5.2vw, 4.8rem);
-      font-weight: 800;
-      line-height: 1.0;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      white-space: nowrap;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.4s forwards;
-    }
-    @media (max-width: 768px) {
-      .hero h1 { white-space: normal; font-size: clamp(2rem, 9vw, 3.5rem); }
-    }
-    .hero h1 .name-highlight {
-      background: linear-gradient(135deg, var(--green) 0%, #00ccff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-family: var(--mono);
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
-      color: var(--muted);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.6s forwards;
-    }
-    .hero-subtitle .accent { color: var(--green); }
-
-    .hero-desc {
-      font-size: 1.05rem;
-      color: #8ab09a;
-      max-width: 560px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.8s forwards;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.6s 1s forwards;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 2rem;
-      background: var(--green);
-      color: var(--bg);
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-decoration: none;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-      transition: all 0.2s;
-    }
-    .btn-primary:hover {
-      background: #fff;
-      box-shadow: 0 0 30px rgba(0,255,136,0.4);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 2rem;
-      background: transparent;
-      color: var(--green);
-      font-family: var(--mono);
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-decoration: none;
-      text-transform: uppercase;
-      border: 1px solid var(--green);
-      cursor: pointer;
-      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-      transition: all 0.2s;
-    }
-    .btn-secondary:hover {
-      background: var(--green3);
-      box-shadow: 0 0 20px rgba(0,255,136,0.2);
-      transform: translateY(-2px);
-    }
-
-    /* SECTION BASE */
-    section { padding: 6rem 3rem; }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--green);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .section-label::before {
-      content: '';
-      display: block;
-      width: 2rem;
-      height: 1px;
-      background: var(--green);
-    }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-    .section-title .hl { color: var(--green); }
-
-    /* ABOUT */
-    .about { background: var(--bg2); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-      max-width: 1100px;
-      margin: 3rem auto 0;
-    }
-    .about-text p {
-      color: #8ab09a;
-      line-height: 1.8;
-      margin-bottom: 1.2rem;
-      font-size: 1rem;
-    }
-    .about-text p strong { color: var(--text); font-weight: 600; }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 1.5rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      background: var(--green);
-    }
-    .stat-card:hover {
-      border-color: var(--green);
-      transform: translateY(-3px);
-    }
-    .stat-num {
-      font-family: var(--mono);
-      font-size: 2.2rem;
-      color: var(--green);
-      font-weight: 700;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-    .stat-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-
-    .cert-chips {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
-    .cert-chip {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      font-size: 0.85rem;
-      color: var(--text);
-      transition: border-color 0.2s;
-    }
-    .cert-chip:hover { border-color: var(--green); }
-    .cert-chip .cert-icon {
-      font-family: var(--mono);
-      color: var(--green);
-      font-size: 0.75rem;
-      background: var(--green4);
-      padding: 0.25rem 0.5rem;
-      border: 1px solid var(--green);
-      white-space: nowrap;
-    }
-
-    /* SKILLS */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      max-width: 1100px;
-      margin: 3rem auto 0;
-    }
-    .skill-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 1.75rem;
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .skill-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--green), transparent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .skill-card:hover {
-      border-color: rgba(0,255,136,0.4);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,255,136,0.05);
-    }
-    .skill-card:hover::after { transform: scaleX(1); }
-    .skill-card-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .skill-icon {
-      font-size: 1.4rem;
-      width: 44px; height: 44px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--green4);
-      border: 1px solid var(--green);
-      flex-shrink: 0;
-    }
-    .skill-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .skill-card p {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .tag {
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--green);
-      background: var(--green4);
-      border: 1px solid rgba(0,255,136,0.2);
-      padding: 0.25rem 0.6rem;
-      letter-spacing: 0.05em;
-    }
-
-    /* EXPERIENCE */
-    .experience { background: var(--bg2); }
-    .timeline {
-      max-width: 800px;
-      margin: 3rem auto 0;
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, var(--green), transparent);
-    }
-    .timeline-item {
-      padding-left: 2.5rem;
-      margin-bottom: 3.5rem;
-      position: relative;
-    }
-    .timeline-dot {
-      position: absolute;
-      left: -5px; top: 4px;
-      width: 11px; height: 11px;
-      background: var(--green);
-      border: 2px solid var(--bg2);
-      box-shadow: 0 0 12px var(--green);
-    }
-    .timeline-date {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--green);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-    .timeline-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.2rem;
-    }
-    .timeline-company {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-      font-family: var(--mono);
-    }
-    .timeline-desc {
-      font-size: 0.9rem;
-      color: #7a9e89;
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-    .timeline-desc strong { color: var(--text); }
-
-    /* PROJECTS */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.5rem;
-      max-width: 1100px;
-      margin: 3rem auto 0;
-    }
-    .project-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-    }
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--green), #00ccff);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.35s;
-    }
-    .project-card:hover {
-      border-color: rgba(0,255,136,0.35);
-      transform: translateY(-6px);
-      box-shadow: 0 30px 60px rgba(0,255,136,0.06);
-    }
-    .project-card:hover::before { transform: scaleX(1); }
-    .project-badge {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--green);
-      border: 1px solid var(--green);
-      padding: 0.2rem 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-bottom: 1rem;
-    }
-    .project-card h3 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-      line-height: 1.2;
-    }
-    .project-card p {
-      font-size: 0.88rem;
-      color: #7a9e89;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-    .project-features {
-      list-style: none;
-      margin-bottom: 1.5rem;
-    }
-    .project-features li {
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding: 0.3rem 0;
-      padding-left: 1.2rem;
-      position: relative;
-    }
-    .project-features li::before {
-      content: '›';
-      position: absolute;
-      left: 0;
-      color: var(--green);
-      font-weight: 700;
-    }
-    .project-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-    }
-    .project-link {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--green);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: gap 0.2s;
-    }
-    .project-link:hover { gap: 0.7rem; }
-
-    /* CONTACT */
-    .contact { background: var(--bg2); }
-    .contact-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .contact-inner .section-label { justify-content: center; }
-    .contact-inner .section-label::before { display: none; }
-    .contact-subtitle {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 3rem;
-      line-height: 1.7;
-    }
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 3rem;
-    }
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.9rem 1.5rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      transition: all 0.2s;
-    }
-    .contact-link:hover {
-      border-color: var(--green);
-      color: var(--green);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(0,255,136,0.08);
-    }
-    .contact-link svg { width: 16px; height: 16px; }
-
-    /* FOOTER */
-    footer {
-      padding: 2rem 3rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-    footer .logo {
-      font-family: var(--mono);
-      color: var(--green);
-      font-size: 0.9rem;
-    }
-    footer .copy {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s, transform 0.6s;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @keyframes wip-pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    /* SCROLLBAR */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--green); }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      section { padding: 5rem 1.5rem; }
-      .hero { padding: 7rem 1.5rem 4rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .about-stats { grid-template-columns: 1fr 1fr; }
-      .projects-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-    }
-  </style>
+  @media (max-width: 900px) {
+    .hero .wrap, .about, .edu, .proj.feature { grid-template-columns: 1fr; }
+    .hero { padding: 40px 0 72px; }
+    .hero .wrap { gap: 48px; }
+    .projects { grid-template-columns: 1fr; }
+    .proj, .proj.wide, .proj.feature { grid-column: span 1; }
+    .skills { grid-template-columns: 1fr 1fr; }
+    .job { grid-template-columns: 1fr; gap: 10px; }
+    .nav-links li:not(:last-child) { display: none; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .skills { grid-template-columns: 1fr; }
+    .receipt { margin: -7px 16px 0; }
+    .facts li { grid-template-columns: 1fr; gap: 2px; }
+    .r-total { flex-direction: column; align-items: flex-start; gap: 2px; }
+    section { padding: 64px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .receipt { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
 </head>
 <body>
 
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">VitorDBL<span>.dev</span></a>
-  <ul class="nav-links">
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experiencia">Experiência</a></li>
-    <li><a href="#projetos">Projetos</a></li>
-    <li><a href="#contato">Contato</a></li>
-  </ul>
-  <button class="hamburger" id="hamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+<nav id="nav">
+  <div class="wrap">
+    <a href="#" class="brand">Vitor<i>.</i></a>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#experiencia">Experiência</a></li>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#competencias">Competências</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li><a class="nav-cv" href="curriculo-vitor-del-bosque-lima.pdf" target="_blank" rel="noopener">Currículo</a></li>
+    </ul>
+  </div>
 </nav>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#sobre" onclick="closeMobile()">Sobre</a>
-  <a href="#skills" onclick="closeMobile()">Skills</a>
-  <a href="#experiencia" onclick="closeMobile()">Experiência</a>
-  <a href="#projetos" onclick="closeMobile()">Projetos</a>
-  <a href="#contato" onclick="closeMobile()">Contato</a>
-</div>
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="status">Aberto a vagas de analista júnior</div>
+      <h1>Vitor Del Bosque Lima</h1>
+      <p class="lede">Estagiário de Dados na <strong>Rede (Itaú Unibanco)</strong>. Construo pipelines em AWS, faço análises para a área regulatória e converso direto com clientes. Estudo Ciência da Computação na UFABC.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="curriculo-vitor-del-bosque-lima.pdf" target="_blank" rel="noopener">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>
+          Baixar currículo
+        </a>
+        <a class="btn btn-ghost" href="#projetos">Ver projetos</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/vitor-del-bosque-lima-1b69a0264/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
 
-<!-- HERO -->
-<section class="hero" id="inicio">
-  <div class="hero-orb"></div>
-  <div class="hero-content">
-    <div class="hero-tag">Aberto a novas oportunidades</div>
-    <h1><span class="name-highlight">Vitor Del Bosque Lima</span></h1>
-    <p class="hero-subtitle">
-      <span class="accent">Estagiário de Dados na Rede (Itaú Unibanco)</span> · Ciência da Computação na UFABC
-    </p>
-    <p class="hero-desc">
-      Trabalho entre a engenharia de dados e o negócio: construo pipelines com <strong>Python, SQL e AWS</strong>, faço análises para a área regulatória e converso direto com clientes. Meu projeto mais recente reduziu em 70% o custo de uma base de dados, mais de US$ 90 mil por ano.
-    </p>
-    <div class="hero-ctas">
-      <a href="#projetos" class="btn-primary">Ver Projetos →</a>
-      <a href="curriculo-vitor-del-bosque-lima.pdf" target="_blank" rel="noopener" class="btn-secondary">Baixar Currículo</a>
+    <div class="terminal" aria-label="Resumo do principal resultado: a nova base de subadquirentes custa 70% menos, uma economia de mais de US$ 90 mil por ano">
+      <div class="slot"></div>
+      <div class="receipt">
+        <div class="r-head"><b>COMPROVANTE DE IMPACTO</b>Rede · Itaú Unibanco</div>
+        <div class="r-row"><span>Projeto</span><span>Base de subadquirentes</span></div>
+        <div class="r-row"><span>Responsável</span><span>Vitor, sozinho</span></div>
+        <div class="r-row"><span>Stack</span><span>AWS Athena, Glue, Python</span></div>
+        <div class="r-sep"></div>
+        <div class="r-row"><span>Custo da base antiga</span><span>100%</span></div>
+        <div class="r-row"><span>Custo da base nova</span><span>30%</span></div>
+        <div class="r-row"><span>Duplicidades</span><span>0</span></div>
+        <div class="r-sep"></div>
+        <div class="r-total"><span>Economia por ano</span><b>US$ 90 mil+</b></div>
+        <div class="r-ok">Transação aprovada</div>
+        <div class="r-foot">Detalhes do projeto são confidenciais</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="sobre" class="alt">
+  <div class="wrap about">
+    <div>
+      <h2>Entre o dado e a decisão</h2>
+      <p>Comecei no Itaú como jovem aprendiz no time de Facilitadores de Pagamentos da Rede e fui efetivado como estagiário no mesmo time. Hoje trabalho em duas frentes: dados, onde construo e mantenho pipelines ETL em AWS, e Governança & Regulatório, onde faço análises para evitar multas e acompanho clientes de perto.</p>
+      <p>Gosto de trabalho que termina numa decisão. O projeto de que mais me orgulho foi reprojetar sozinho a base de subadquirentes: aprendi ETL e arquitetura de dados no caminho e entreguei uma base sem duplicidades que custa 70% menos.</p>
+      <p>Na faculdade fiz iniciação científica em grafos de conhecimento e PLN, participei da diretoria de e-sports da atlética e de um projeto de extensão que ensina crianças a usar tecnologia com senso crítico.</p>
+    </div>
+    <ul class="facts">
+      <li><span>Hoje</span>Estagiário de Dados na Rede (Itaú Unibanco)</li>
+      <li><span>Estudo</span>Ciência da Computação na UFABC, previsão dez/2028</li>
+      <li><span>Ferramentas</span>Python, SQL, PySpark e AWS (Athena, S3, Glue, Step Functions, Bedrock)</li>
+      <li><span>Interesse</span>Vagas de analista júnior em dados, produtos, planejamento ou estratégia</li>
+      <li><span>Base</span>São Paulo, SP · trabalho híbrido</li>
+    </ul>
+  </div>
+</section>
+
+<section id="experiencia" class="alt">
+  <div class="wrap">
+    <h2>Experiência</h2>
+    <p class="sub">Um ano e meio no mesmo time, de jovem aprendiz a estagiário, e três anos de gestão voluntária na universidade.</p>
+    <div class="jobs">
+      <article class="job">
+        <div class="when"><b>set/2025 a atual</b>Híbrido · São Paulo</div>
+        <div>
+          <h3>Estagiário de Dados, Facilitadores de Pagamentos</h3>
+          <div class="org">Rede (Itaú Unibanco)</div>
+          <ul>
+            <li>Reprojetei sozinho, do zero, a base de subadquirentes em AWS (Athena, Glue): <span class="hl">70% menos custo e mais de US$ 90 mil economizados por ano</span>.</li>
+            <li>Construo e mantenho pipelines ETL em AWS (Athena, S3, Glue, Step Functions) e automações em Python que alimentam análises e dashboards.</li>
+            <li>Faço análises exploratórias e estudos de prevenção de multas regulatórias para Governança & Regulatório.</li>
+            <li>Atendo facilitadores de pagamento no dia a dia e acompanho a conformidade regulatória deles.</li>
+            <li>Apresentei à superintendência o projeto Mensageria Transacional e apoio as iniciativas de Inteligência Artificial Generativa do time.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="job">
+        <div class="when"><b>mai/2025 a set/2025</b>São Paulo</div>
+        <div>
+          <h3>Jovem Aprendiz, Facilitadores de Pagamentos</h3>
+          <div class="org">Rede (Itaú Unibanco)</div>
+          <ul><li>Primeiro contato com a área de dados, com efetivação como estagiário no mesmo time.</li></ul>
+        </div>
+      </article>
+      <article class="job">
+        <div class="when"><b>jan/2024 a dez/2026</b>Voluntário</div>
+        <div>
+          <h3>Diretoria de E-sports</h3>
+          <div class="org">AXIS Anteaters, Atlética AXIS · UFABC</div>
+          <ul>
+            <li>Gestão do elenco de oito modalidades, entre elas Valorant, LoL, CS2 e Rainbow Six: atletas, contratos, campeonatos e eventos.</li>
+            <li>Criei a planilha de gestão do elenco com painel de desempenho por modalidade e automatizei a montagem das escalas de plantão.</li>
+          </ul>
+        </div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- SOBRE -->
-<section class="about" id="sobre">
-  <div class="section-label">01 / Sobre</div>
-  <h2 class="section-title">Quem é <span class="hl">Vitor?</span></h2>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <p>
-        Curso <strong>Ciência da Computação</strong> e o <strong>Bacharelado Interdisciplinar em Ciência e Tecnologia</strong> na Universidade Federal do ABC (UFABC), com base em cálculo, física, programação, banco de dados e análise de dados.
-      </p>
-      <p>
-        Atualmente trabalho como <strong>Estagiário de Dados na Rede</strong>, no time de Facilitadores de Pagamentos. Minha rotina mistura pipelines ETL em <strong>AWS</strong> (Athena, S3, Glue, Step Functions), automação com Python, dashboards, análises para <strong>Governança & Regulatório</strong> e contato direto com clientes.
-      </p>
-      <p>
-        O projeto de que mais me orgulho foi reprojetar do zero, sozinho, a base de dados de subadquirentes. A nova estrutura acabou com as duplicidades e passou a custar 70% menos, uma economia de mais de US$ 90 mil por ano.
-      </p>
-      <p>
-        Participei de uma <strong>iniciação científica em PLN</strong>, desenvolvendo um chatbot baseado em grafos de conhecimento, usando Neo4j e a API da OpenAI para responder perguntas a partir de avaliações reais.
-      </p>
-      <p>
-        Também sou <strong>Técnico em Automação Industrial</strong> pela ETEC Getúlio Vargas, com base em sistemas de controle e programação de dispositivos eletrônicos, o que me dá uma perspectiva aplicada e interdisciplinar da tecnologia.
-      </p>
-
-      <div class="cert-chips" style="margin-top:2rem">
-        <div class="cert-chip"><span class="cert-icon">ITAÚ</span> Practitioner – D&A Foundation · Itaú Unibanco</div>
-        <div class="cert-chip"><span class="cert-icon">ITAÚ</span> Practitioner – Generative AI · Itaú Unibanco</div>
-        <div class="cert-chip"><span class="cert-icon">ITAÚ</span> Associate – Generative AI · Itaú Unibanco</div>
-        <div class="cert-chip"><span class="cert-icon">ITAÚ</span> Associate – Data Science · Itaú Unibanco</div>
-        <div class="cert-chip"><span class="cert-icon">ITAÚ</span> Associate – Data Engineering · Itaú Unibanco</div>
-        <div class="cert-chip"><span class="cert-icon">FIAP</span> Inteligência Artificial · FIAP</div>
-        <div class="cert-chip"><span class="cert-icon">BRAD</span> Excel Avançado · Fundação Bradesco</div>
-      </div>
-    </div>
-
-    <div class="about-stats reveal">
-      <div class="stat-card">
-        <span class="stat-num">70%</span>
-        <span class="stat-desc">De redução de custo na base de subadquirentes que reprojetei</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">1+</span>
-        <span class="stat-desc">Anos de experiência na área de dados na Rede (Itaú)</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">US$ 90k+</span>
-        <span class="stat-desc">Economizados por ano com a nova base</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-num">7</span>
-        <span class="stat-desc">Certificações em IA, Dados e Tecnologia</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-label">02 / Skills</div>
-  <h2 class="section-title">Tecnologias & <span class="hl">Competências</span></h2>
-
-  <div class="skills-grid">
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">🐍</div>
-        <h3>Programação & Automação</h3>
-      </div>
-      <p>Linguagem principal para análise de dados, automação de processos, ETL e desenvolvimento de soluções inteligentes.</p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">Pandas</span>
-        <span class="tag">NumPy</span>
-        <span class="tag">FastAPI</span>
-        <span class="tag">Automação</span>
-        <span class="tag">C</span>
-        <span class="tag">Streamlit</span>
-      </div>
-    </div>
-
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">☁️</div>
-        <h3>Cloud & Dados (AWS)</h3>
-      </div>
-      <p>Construção e evolução de pipelines e arquiteturas analíticas em AWS, com foco em ETL e disponibilização de dados.</p>
-      <div class="tags">
-        <span class="tag">AWS Athena</span>
-        <span class="tag">S3</span>
-        <span class="tag">Glue</span>
-        <span class="tag">Step Functions</span>
-        <span class="tag">ETL</span>
-        <span class="tag">PySpark</span>
-        <span class="tag">Lambda</span>
-        <span class="tag">IAM</span>
-      </div>
-    </div>
-
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">🗄️</div>
-        <h3>Banco de Dados & SQL</h3>
-      </div>
-      <p>Queries complexas, modelagem relacional, análises exploratórias e suporte a decisões estratégicas com dados.</p>
-      <div class="tags">
-        <span class="tag">SQL</span>
-        <span class="tag">MySQL</span>
-        <span class="tag">PostgreSQL</span>
-        <span class="tag">Análise Exploratória</span>
-      </div>
-    </div>
-
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">🤖</div>
-        <h3>IA & Machine Learning</h3>
-      </div>
-      <p>Inteligência Artificial Generativa, PLN com grafos de conhecimento, prompt engineering e agentes de IA.</p>
-      <div class="tags">
-        <span class="tag">PLN</span>
-        <span class="tag">Grafos de Conhecimento</span>
-        <span class="tag">IA Generativa</span>
-        <span class="tag">Prompt Engineering</span>
-        <span class="tag">OpenAI API</span>
-        <span class="tag">Neo4j</span>
-      </div>
-    </div>
-
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">⚙️</div>
-        <h3>Automação Industrial</h3>
-      </div>
-      <p>Técnico formado pela ETEC Getúlio Vargas, com base em sistemas de controle, PLCs e programação de dispositivos eletrônicos.</p>
-      <div class="tags">
-        <span class="tag">Automação Industrial</span>
-        <span class="tag">Sistemas de Controle</span>
-        <span class="tag">Eletrônica</span>
-      </div>
-    </div>
-
-    <div class="skill-card reveal">
-      <div class="skill-card-header">
-        <div class="skill-icon">📊</div>
-        <h3>Negócio & Comunicação</h3>
-      </div>
-      <p>Tradução de dados em decisão: atendimento a clientes, regulatório de meios de pagamento, apresentações para liderança e trabalho com times ágeis.</p>
-      <div class="tags">
-        <span class="tag">Regulatório</span>
-        <span class="tag">Atendimento a Clientes</span>
-        <span class="tag">Apresentações</span>
-        <span class="tag">Kanban</span>
-        <span class="tag">Excel Avançado</span>
-        <span class="tag">Inglês Intermediário</span>
-        <span class="tag">Governança de Dados</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIÊNCIA -->
-<section class="experience" id="experiencia">
-  <div class="section-label">03 / Trajetória</div>
-  <h2 class="section-title">Formação & <span class="hl">Experiência</span></h2>
-
-  <div class="timeline">
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">SET 2025 · ATUAL</div>
-      <div class="timeline-title">Estagiário de Dados · Facilitadores de Pagamentos</div>
-      <div class="timeline-company">Rede (Itaú Unibanco) · São Paulo, SP · Híbrido</div>
-      <p class="timeline-desc">
-        Atuo em duas frentes: <strong>Dados</strong> e <strong>Governança & Regulatório</strong>. Construo e mantenho pipelines ETL em <strong>AWS</strong> (Athena, S3, Glue, Step Functions), automatizo processos com <strong>Python</strong> e desenvolvo análises exploratórias e modelos que geram insights estratégicos, incluindo estudos voltados à prevenção de multas regulatórias e à performance da área. Apresentei à superintendência o projeto Mensageria Transacional, apoio iniciativas de <strong>IA Generativa</strong> e dashboards, e mantenho contato próximo com clientes para entender suas necessidades e acompanhar a conformidade regulatória.
-      </p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">AWS</span>
-        <span class="tag">SQL</span>
-        <span class="tag">ETL</span>
-        <span class="tag">IA Generativa</span>
-        <span class="tag">Dashboards</span>
-        <span class="tag">Governança</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">MAI 2025 · SET 2025</div>
-      <div class="timeline-title">Jovem Aprendiz</div>
-      <div class="timeline-company">Rede (Itaú Unibanco) · São Paulo, SP</div>
-      <p class="timeline-desc">
-        Início da jornada na área de dados no time de Facilitadores de Pagamentos da Rede, o que levou à efetivação como estagiário no mesmo time.
-      </p>
-      <div class="tags">
-        <span class="tag">Python</span>
-        <span class="tag">Dados</span>
-        <span class="tag">SQL</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">JAN 2025 · DEZ 2028 (PREVISTO)</div>
-      <div class="timeline-title">Bacharelado em Ciência da Computação</div>
-      <div class="timeline-company">Universidade Federal do ABC (UFABC)</div>
-      <p class="timeline-desc">
-        Foco em programação, algoritmos, estruturas de dados, inteligência artificial e sistemas computacionais.
-      </p>
-      <div class="tags">
-        <span class="tag">Algoritmos</span>
-        <span class="tag">IA</span>
-        <span class="tag">C</span>
-        <span class="tag">Python</span>
-        <span class="tag">SQL</span>
-        <span class="tag">HTML</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">MAI 2023 · SET 2027 (PREVISTO)</div>
-      <div class="timeline-title">Bacharelado Interdisciplinar em Ciência e Tecnologia</div>
-      <div class="timeline-company">Universidade Federal do ABC (UFABC)</div>
-      <p class="timeline-desc">
-        Formação interdisciplinar com base em cálculo, física, programação e química. Participação em <strong>Iniciação Científica em PLN</strong>, com o desenvolvimento de chatbot com grafos de conhecimento.
-      </p>
-      <div class="tags">
-        <span class="tag">PLN</span>
-        <span class="tag">Grafos</span>
-        <span class="tag">Pesquisa Científica</span>
-        <span class="tag">Python</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">JAN 2024 · ATUAL · VOLUNTÁRIO</div>
-      <div class="timeline-title">Diretoria de E-sports · AXIS Anteaters</div>
-      <div class="timeline-company">Atlética AXIS · UFABC</div>
-      <p class="timeline-desc">
-        Gestão do elenco de oito modalidades (Valorant, LoL, CS2, Rainbow Six e outras): atletas, contratos, campeonatos e eventos. Criei a planilha de gestão com painel de desempenho por modalidade e automatizei a montagem das escalas de plantão.
-      </p>
-      <div class="tags">
-        <span class="tag">Gestão de Pessoas</span>
-        <span class="tag">Organização de Eventos</span>
-        <span class="tag">Comunicação</span>
-        <span class="tag">Redes Sociais</span>
-        <span class="tag">Voluntário</span>
-      </div>
-    </div>
-
-    <div class="timeline-item reveal">
-      <div class="timeline-dot"></div>
-      <div class="timeline-date">JAN 2020 · DEZ 2022</div>
-      <div class="timeline-title">Técnico em Automação Industrial</div>
-      <div class="timeline-company">ETEC Getúlio Vargas</div>
-      <p class="timeline-desc">
-        Formação técnica em sistemas de controle, programação de dispositivos eletrônicos, lógica de programação e instrumentação industrial.
-      </p>
-      <div class="tags">
-        <span class="tag">Automação</span>
-        <span class="tag">Eletrônica</span>
-        <span class="tag">Sistemas de Controle</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJETOS -->
 <section id="projetos">
-  <div class="section-label">04 / Portfólio</div>
-  <h2 class="section-title">Projetos em <span class="hl">Destaque</span></h2>
+  <div class="wrap">
+    <h2>Projetos</h2>
+    <p class="sub">Do trabalho, da pesquisa e da universidade. Cada um resolveu um problema real de alguém.</p>
+    <div class="projects">
 
-  <div class="projects-grid">
-    <div class="project-card reveal" style="border-color: rgba(0,255,136,0.25);">
-      <span class="project-badge">Projeto Corporativo · Rede (Itaú)</span>
-      <h3>Base Otimizada de Subadquirentes</h3>
-      <p>
-        Reprojetei do zero, sozinho, a base de dados de subadquirentes para substituir a base existente: uma nova estrutura sem duplicidades e completamente otimizada, aprendendo de forma proativa ETL e arquitetura de dados ao longo do desenvolvimento.
-      </p>
-      <ul class="project-features">
-        <li>Economia de 70% em relação à base anterior</li>
-        <li>Mais de 90 mil dólares economizados por ano</li>
-        <li>Eliminação completa de duplicidades</li>
-        <li>Arquitetura desenhada e implementada individualmente</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">AWS</span>
-        <span class="tag">Athena</span>
-        <span class="tag">Glue</span>
-        <span class="tag">ETL</span>
-        <span class="tag">Python</span>
-      </div>
-      <div class="project-footer">
-        <span style="font-family:var(--mono); font-size:0.75rem; color:var(--muted);">Projeto interno · Rede (Itaú Unibanco)</span>
-        <div class="tags"><span class="tag">Confidencial</span></div>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <span class="project-badge">Projeto Pessoal · Python</span>
-      <h3>Gerador de Escala Inteligente</h3>
-      <p>
-        Automatiza a criação de escalas de plantões que antes eram feitas manualmente em uma entidade universitária. O sistema aplica regras de restrição e priorização para gerar distribuições equilibradas e transparentes em segundos.
-      </p>
-      <ul class="project-features">
-        <li>Backtracking que preenche primeiro os horários mais difíceis de cobrir</li>
-        <li>Máximo de 2 plantões por pessoa, com prioridade para quem tem menos disponibilidade</li>
-                <li>Detecção e sinalização automática de conflitos</li>
-        <li>Interface web em Streamlit</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">Python</span>
-        <span class="tag">Otimização</span>
-        <span class="tag">Streamlit</span>
-        <span class="tag">Backtracking</span>
-      </div>
-      <div class="project-footer">
-        <a href="https://github.com/VitorDBL/gerador-escala-axis" target="_blank" rel="noopener" class="project-link">
-          Ver no GitHub →
-        </a>
-        <div class="tags">
-          <span class="tag">Open Source</span>
+      <article class="proj feature">
+        <div>
+          <div class="kind">Projeto corporativo · Rede (Itaú Unibanco)</div>
+          <h3>Base otimizada de subadquirentes</h3>
+          <p>A base antiga tinha duplicidades e custava caro para consultar. Redesenhei a estrutura do zero, sozinho, aprendendo ETL e arquitetura de dados no processo, e substituí a base em produção.</p>
+          <div class="stack"><span>AWS Athena</span><span>Glue</span><span>S3</span><span>ETL</span><span>Python</span></div>
         </div>
-      </div>
-    </div>
-
-    <div class="project-card reveal">
-      <span class="project-badge">Iniciação Científica · IA</span>
-      <h3>Chatbot com IA Generativa & Grafos de Conhecimento</h3>
-      <p>
-        Iniciação científica em PLN e Grafos de Conhecimento na UFABC. Um chatbot que analisa avaliações de hotéis e entrega insights relevantes para quem quer se hospedar, sem precisar ler centenas de reviews. Desenvolvido com Python, Neo4j e a API da OpenAI.
-      </p>
-      <ul class="project-features">
-        <li>Grafos de conhecimento para estruturar e relacionar avaliações</li>
-        <li>Extração de entidades das avaliações com a API da OpenAI</li>
-        <li>Geração de consultas Cypher a partir de perguntas em linguagem natural</li>
-        <li>Respostas automáticas a perguntas sobre hotéis específicos</li>
-        <li>Banco de dados em grafo com Neo4j</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">PLN</span>
-        <span class="tag">Grafos de Conhecimento</span>
-        <span class="tag">Neo4j</span>
-        <span class="tag">Python</span>
-        <span class="tag">Pesquisa</span>
-      </div>
-      <div class="project-footer">
-        <a href="https://github.com/VitorDBL/PDPD" target="_blank" rel="noopener" class="project-link">
-          Ver no GitHub →
-        </a>
-        <div class="tags">
-          <span class="tag">Acadêmico</span>
+        <div class="big-nums">
+          <div><b>70%</b><span>de redução no custo da base</span></div>
+          <div><b>US$ 90 mil+</b><span>economizados por ano</span></div>
         </div>
-      </div>
-    </div>
+      </article>
 
+      <article class="proj wide">
+        <div class="kind">Iniciação científica · UFABC</div>
+        <h3>Chatbot com grafos de conhecimento</h3>
+        <p>Responde perguntas sobre hotéis a partir de centenas de avaliações de hóspedes, para ninguém precisar ler todas. Extraio entidades com a API da OpenAI, monto o grafo no Neo4j e transformo perguntas em linguagem natural em consultas Cypher.</p>
+        <div class="stack"><span>Python</span><span>Neo4j</span><span>Cypher</span><span>OpenAI API</span><span>PLN</span></div>
+        <div class="links"><a href="https://github.com/VitorDBL/PDPD" target="_blank" rel="noopener">Ver no GitHub</a></div>
+      </article>
 
-    <div class="project-card reveal">
-      <span class="project-badge">Produto · Projeto em Grupo</span>
-      <h3>Zela: monitoramento ambiental urbano</h3>
-      <p>
-        App para a população registrar e acompanhar problemas ambientais da cidade em um mapa. Projeto de quatro pessoas na UFABC, em que atuei como desenvolvedor, do canvas de proposta de valor e do backlog em Kanban até o protótipo publicado.
-      </p>
-      <ul class="project-features">
-        <li>Canvas de proposta de valor e pitch publicado</li>
-        <li>Planejamento ágil com quadro Kanban</li>
-        <li>PWA com mapa real, back-end em Node.js e Express</li>
-        <li>Protótipo publicado na web</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">Node.js</span>
-        <span class="tag">Express</span>
-        <span class="tag">PWA</span>
-        <span class="tag">Produto</span>
-        <span class="tag">Kanban</span>
-      </div>
-      <div class="project-footer">
-        <a href="https://github.com/VitorDBL/Zela" target="_blank" rel="noopener" class="project-link">Ver no GitHub →</a>
-        <a href="https://zela-6q66.onrender.com" target="_blank" rel="noopener" class="project-link">Abrir app →</a>
-      </div>
-    </div>
+      <article class="proj">
+        <div class="kind">Projeto pessoal</div>
+        <h3>Gerador de escala de plantões</h3>
+        <p>Trocou a escala montada à mão na atlética por um app: backtracking com restrições, prioridade para quem tem menos horários livres e aviso de conflitos.</p>
+        <div class="stack"><span>Python</span><span>Streamlit</span><span>Pandas</span></div>
+        <div class="links"><a href="https://github.com/VitorDBL/gerador-escala-axis" target="_blank" rel="noopener">Ver no GitHub</a></div>
+      </article>
 
-    <div class="project-card reveal">
-      <span class="project-badge">Extensão Universitária · Impacto Social</span>
-      <h3>Primeiros Passos com IA</h3>
-      <p>
-        Oficinas de letramento digital para crianças de 7 a 12 anos em uma comunidade de São Caetano do Sul. Construí o site interativo usado nas aulas e redesenhei as atividades depois do primeiro encontro para prender mais a atenção da turma.
-      </p>
-      <ul class="project-features">
-        <li>Site interativo publicado no Netlify</li>
-        <li>Jogo de adivinhação com desenhos em SVG</li>
-        <li>Conteúdo sobre prompts, limites e deepfakes</li>
-        <li>Aplicado presencialmente com as crianças</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">HTML</span>
-        <span class="tag">JavaScript</span>
-        <span class="tag">Educação</span>
-        <span class="tag">Comunicação</span>
-      </div>
-      <div class="project-footer">
-        <a href="https://primeiros-passos-com-ia.netlify.app" target="_blank" rel="noopener" class="project-link">Ver site →</a>
-        <div class="tags"><span class="tag">Extensão</span></div>
-      </div>
-    </div>
+      <article class="proj">
+        <div class="kind">Produto em grupo · UFABC</div>
+        <h3>Zela</h3>
+        <p>App para a população registrar problemas ambientais da cidade em um mapa. Fui desenvolvedor num time de quatro pessoas, da ideia ao protótipo publicado.</p>
+        <div class="stack"><span>Node.js</span><span>Express</span><span>PWA</span></div>
+        <div class="links"><a href="https://github.com/VitorDBL/Zela" target="_blank" rel="noopener">GitHub</a><a href="https://zela-6q66.onrender.com" target="_blank" rel="noopener">Abrir app</a></div>
+      </article>
 
-    <div class="project-card reveal" style="border-color: rgba(0,255,136,0.25); position:relative;">
-      <div style="position:absolute; top:1.25rem; right:1.25rem; font-family:var(--mono); font-size:0.65rem; color:var(--bg); background:var(--green); padding:0.2rem 0.6rem; letter-spacing:0.1em; animation: wip-pulse 2s infinite;">EM DESENVOLVIMENTO</div>
-      <span class="project-badge">Análise de Dados · Mercado Financeiro</span>
-      <h3>O Mercado Não Mente</h3>
-      <p>
-        Análise exploratória do mercado financeiro brasileiro com foco em storytelling. O projeto vai além dos números: cruza dados da B3 com eventos macroeconômicos reais para revelar padrões que o noticiário não mostra.
-      </p>
-      <ul class="project-features">
-        <li>Comportamento histórico de ações da B3 (Petrobras, Vale, Itaú)</li>
-        <li>Correlação entre setores e impacto de eventos como pandemia e Selic</li>
-        <li>Detecção de anomalias e crashes com contexto histórico</li>
-        <li>Visualizações interativas com Plotly e narrativa orientada a dados</li>
-        <li>Dashboard em Streamlit com filtros por ativo e período</li>
-      </ul>
-      <div class="tags" style="margin-bottom:1.25rem">
-        <span class="tag">Python</span>
-        <span class="tag">Pandas</span>
-        <span class="tag">Plotly</span>
-        <span class="tag">Streamlit</span>
-        <span class="tag">yfinance</span>
-        <span class="tag">B3</span>
-      </div>
-      <div class="project-footer">
-        <span style="font-family:var(--mono); font-size:0.75rem; color:var(--muted);">Repositório em breve</span>
-        <div class="tags"><span class="tag">Em breve</span></div>
-      </div>
+      <article class="proj">
+        <div class="kind">Extensão universitária</div>
+        <h3>Primeiros Passos com IA</h3>
+        <p>Oficinas de letramento digital para crianças de 7 a 12 anos em São Caetano do Sul. Construí o site interativo das aulas e refiz os jogos depois do primeiro encontro para prender a atenção da turma.</p>
+        <div class="stack"><span>Web</span><span>Educação</span><span>Comunicação</span></div>
+        <div class="links"><a href="https://primeiros-passos-com-ia.netlify.app" target="_blank" rel="noopener">Ver site</a></div>
+      </article>
+
+      <article class="proj">
+        <span class="wip">Em andamento</span>
+        <div class="kind">Análise de dados</div>
+        <h3>O Mercado Não Mente</h3>
+        <p>Análise da B3 que cruza o preço de ações como Petrobras, Vale e Itaú com eventos como pandemia e Selic, com dashboard em Streamlit.</p>
+        <div class="stack"><span>Python</span><span>Pandas</span><span>Plotly</span><span>yfinance</span></div>
+      </article>
+
     </div>
   </div>
 </section>
 
-<!-- CONTATO -->
-<section class="contact" id="contato">
-  <div class="contact-inner">
-    <div class="section-label">05 / Contato</div>
-    <h2 class="section-title" style="margin-bottom:1rem">Vamos <span class="hl">conversar?</span></h2>
-    <p class="contact-subtitle reveal">
-      Estou aberto a novas oportunidades, projetos e colaborações.<br>Sinta-se à vontade para entrar em contato!
-    </p>
-
-    <div class="contact-links reveal">
-      <a href="mailto:vitordblgv@gmail.com" class="contact-link">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-        vitordblgv@gmail.com
-      </a>
-      <a href="https://github.com/VitorDBL" target="_blank" rel="noopener" class="contact-link">
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        @VitorDBL
-      </a>
-      <a href="https://www.linkedin.com/in/vitor-del-bosque-lima-1b69a0264/" target="_blank" rel="noopener" class="contact-link">
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://www.instagram.com/vitordbl/" target="_blank" rel="noopener" class="contact-link">
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        @vitordbl
-      </a>
-      <a href="curriculo-vitor-del-bosque-lima.pdf" target="_blank" rel="noopener" class="contact-link">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"/></svg>
-        Currículo (PDF)
-      </a>
-      <a href="https://wa.me/5511953741449" target="_blank" rel="noopener" class="contact-link">
-        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        (11) 95374-1449
-      </a>
+<section id="competencias">
+  <div class="wrap">
+    <h2>Competências</h2>
+    <p class="sub">O que uso no trabalho e nos projetos.</p>
+    <div class="skills">
+      <div><h3>Dados</h3><ul><li>Python (Pandas, NumPy)</li><li>SQL (MySQL, PostgreSQL)</li><li>PySpark</li><li>ETL e modelagem de dados</li><li>Análise exploratória</li></ul></div>
+      <div><h3>Cloud AWS</h3><ul><li>Athena e S3</li><li>Glue e Step Functions</li><li>Lambda e IAM</li><li>Bedrock</li><li>QuickSight</li></ul></div>
+      <div><h3>Visualização</h3><ul><li>Dashboards</li><li>Amazon QuickSight</li><li>Streamlit e Plotly</li><li>Excel avançado</li></ul></div>
+      <div><h3>Inteligência Artificial Generativa</h3><ul><li>LLMs e engenharia de prompt</li><li>Integração com APIs</li><li>Vibe coding</li><li>Grafos de conhecimento (Neo4j)</li></ul></div>
+      <div><h3>Negócio</h3><ul><li>Governança de dados</li><li>Regulatório de meios de pagamento</li><li>Atendimento a clientes</li><li>Apresentações para liderança</li></ul></div>
+      <div><h3>Idiomas</h3><ul><li>Português nativo</li><li>Inglês intermediário</li></ul></div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <span class="logo">VitorDBL<span style="color:var(--muted)">.dev</span></span>
-  <span class="copy">© 2026 Vitor Del Bosque Lima. Feito com dedicação.</span>
-</footer>
+<section class="alt">
+  <div class="wrap edu">
+    <div>
+      <h3 class="col">Formação</h3>
+      <ul class="edu-list">
+        <li><b>Bacharelado em Ciência da Computação</b><span>UFABC · jan/2025 a dez/2028 (previsto)</span></li>
+        <li><b>Bacharelado Interdisciplinar em Ciência e Tecnologia</b><span>UFABC · mai/2023 a dez/2027 (previsto) · Iniciação científica em PLN</span></li>
+        <li><b>Técnico em Automação Industrial</b><span>ETEC Getúlio Vargas · jan/2020 a dez/2022</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="col">Certificações</h3>
+      <ul class="edu-list">
+        <li><b>Practitioner: D&amp;A Foundation e Generative AI</b><span>Itaú Unibanco</span></li>
+        <li><b>Associate: Generative AI, Data Science e Data Engineering</b><span>Itaú Unibanco</span></li>
+        <li><b>Inteligência Artificial</b><span>FIAP</span></li>
+        <li><b>Excel Avançado</b><span>Fundação Bradesco</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="contact">
+  <div class="wrap">
+    <h2>Tem uma vaga de analista no seu time?</h2>
+    <p class="sub">Respondo rápido por e-mail ou WhatsApp.</p>
+    <a class="mail" href="mailto:vitordblgv@gmail.com">vitordblgv@gmail.com</a>
+    <div class="channels">
+      <a href="https://www.linkedin.com/in/vitor-del-bosque-lima-1b69a0264/" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>LinkedIn</a>
+      <a href="https://github.com/VitorDBL" target="_blank" rel="noopener"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+      <a href="https://wa.me/5511953741449" target="_blank" rel="noopener"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5.5A2.5 2.5 0 015.5 3h1.6a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.5 1.2l-1.5.75a11 11 0 005.9 5.9l.75-1.5a1 1 0 011.2-.5l3.3 1.1a1 1 0 01.68.95v1.6A2.5 2.5 0 0118.5 21h-1C9.5 21 3 14.5 3 6.5v-1z"/></svg>(11) 95374-1449</a>
+      <a href="curriculo-vitor-del-bosque-lima.pdf" target="_blank" rel="noopener"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>Currículo em PDF</a>
+    </div>
+    <footer><span>Vitor Del Bosque Lima, 2026</span><span>São Paulo, SP</span></footer>
+  </div>
+</section>
 
 <script>
-  // HAMBURGER
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
-  function closeMobile() { mobileMenu.classList.remove('open'); }
-
-  // SCROLL REVEAL
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  reveals.forEach(el => observer.observe(el));
+  const nav = document.getElementById('nav');
+  addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
 </script>
 </body>
 </html>
