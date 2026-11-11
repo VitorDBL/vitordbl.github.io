@@ -117,6 +117,7 @@
   .projects { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
   .proj { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; grid-column: span 2; }
   .proj.wide { grid-column: span 4; }
+  .proj.half { grid-column: span 3; }
   .proj.feature { grid-column: span 6; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; background: var(--ink); color: #E8ECF2; border: none; }
   .proj .kind { font-size: 0.88rem; color: var(--muted); margin-bottom: 10px; }
   .proj.feature .kind { color: #AEB7C6; }
@@ -166,7 +167,7 @@
     .hero { padding: 40px 0 72px; }
     .hero .wrap { gap: 48px; }
     .projects { grid-template-columns: 1fr; }
-    .proj, .proj.wide, .proj.feature { grid-column: span 1; }
+    .proj, .proj.wide, .proj.half, .proj.feature { grid-column: span 1; }
     .skills { grid-template-columns: 1fr 1fr; }
     .job { grid-template-columns: 1fr; gap: 10px; }
     .nav-links li:not(:last-child) { display: none; }
@@ -326,12 +327,28 @@
       <article class="proj">
         <div class="kind">Projeto pessoal</div>
         <h3>Gerador de escala de plantões</h3>
-        <p>Trocou a escala montada à mão na atlética por um app: backtracking com restrições, prioridade para quem tem menos horários livres e aviso de conflitos.</p>
+        <p>Trocou a escala montada à mão na atlética por um app. Lê as respostas do Google Forms e distribui os plantões cobrindo o máximo de horários, sem passar do limite de cada pessoa, e avisa onde faltou gente.</p>
         <div class="stack"><span>Python</span><span>Streamlit</span><span>Pandas</span></div>
         <div class="links"><a href="https://github.com/VitorDBL/gerador-escala-axis" target="_blank" rel="noopener">Ver no GitHub</a></div>
       </article>
 
       <article class="proj">
+        <div class="kind">Projeto pessoal</div>
+        <h3>Ascensão</h3>
+        <p>App que uso no celular para acompanhar treino, alimentação e medidas ao longo de 180 dias. Tem um coach que responde por texto ou voz e lembretes agendados.</p>
+        <div class="stack"><span>JavaScript</span><span>PWA</span><span>Gemini API</span><span>GitHub Actions</span></div>
+        <div class="links"><a href="https://github.com/VitorDBL/ascensao" target="_blank" rel="noopener">GitHub</a><a href="https://vitordbl.github.io/ascensao/" target="_blank" rel="noopener">Abrir app</a></div>
+      </article>
+
+      <article class="proj wide">
+        <div class="kind">Análise de dados · Projeto pessoal</div>
+        <h3>O Mercado Não Mente</h3>
+        <p>Olhei como a bolsa brasileira reagiu à pandemia, aos ciclos de alta da Selic e às eleições de 2022 e 2026. O Ibovespa, por exemplo, caiu 13,9% no dia seguinte ao segundo turno de 2026, a maior queda desde março de 2020. O relatório se atualiza sozinho toda sexta com dados do Yahoo Finance e do Banco Central.</p>
+        <div class="stack"><span>Python</span><span>Pandas</span><span>Matplotlib</span><span>API do Banco Central</span><span>Streamlit</span><span>GitHub Actions</span></div>
+        <div class="links"><a href="https://vitordbl.github.io/o-mercado-nao-mente/" target="_blank" rel="noopener">Ler o relatório</a><a href="https://github.com/VitorDBL/o-mercado-nao-mente" target="_blank" rel="noopener">GitHub</a></div>
+      </article>
+
+      <article class="proj half">
         <div class="kind">Produto em grupo · UFABC</div>
         <h3>Zela</h3>
         <p>App para a população registrar problemas ambientais da cidade em um mapa. Fui desenvolvedor num time de quatro pessoas, da ideia ao protótipo publicado.</p>
@@ -339,20 +356,12 @@
         <div class="links"><a href="https://github.com/VitorDBL/Zela" target="_blank" rel="noopener">GitHub</a><a href="https://zela-6q66.onrender.com" target="_blank" rel="noopener">Abrir app</a></div>
       </article>
 
-      <article class="proj">
+      <article class="proj half">
         <div class="kind">Extensão universitária</div>
         <h3>Primeiros Passos com IA</h3>
         <p>Oficinas de letramento digital para crianças de 7 a 12 anos em São Caetano do Sul. Construí o site interativo das aulas e refiz os jogos depois do primeiro encontro para prender a atenção da turma.</p>
         <div class="stack"><span>Web</span><span>Educação</span><span>Comunicação</span></div>
         <div class="links"><a href="https://primeiros-passos-com-ia.netlify.app" target="_blank" rel="noopener">Ver site</a></div>
-      </article>
-
-      <article class="proj">
-        <span class="wip">Em andamento</span>
-        <div class="kind">Análise de dados</div>
-        <h3>O Mercado Não Mente</h3>
-        <p>Storytelling com dados da B3: cruza o preço de ações como Petrobras, Vale e Itaú com eventos como pandemia e Selic, com dashboard em Streamlit.</p>
-        <div class="stack"><span>Python</span><span>Pandas</span><span>Plotly</span><span>yfinance</span></div>
       </article>
 
     </div>
